@@ -1,0 +1,60 @@
+﻿@model List<Seguimientos.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Reservation System";
+}
+
+<h2>Reservation System</h2>
+
+<h4>New Reservation</h4>
+
+@if (ViewBag.Error != null)
+{
+    <p style="color:red;"><strong>@ViewBag.Error</strong></p>
+}
+
+<form asp-action="Create" method="post">
+    <input type="text" name="clientName" placeholder="Client Name" required />
+    <br /><br />
+
+    <input type="text" name="service" placeholder="Service" required />
+    <br /><br />
+
+    <input type="date" name="date" required />
+    <br /><br />
+
+    <input type="time" name="time" required />
+    <br /><br />
+
+    <button type="submit">Reserve</button>
+</form>
+
+<hr />
+
+<h3>Current Reservations</h3>
+
+<table border="1">
+    <tr>
+        <th>Client</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td>@r.ClientName</td>
+            <td>@r.Service</td>
+            <td>@r.Date.ToShortDateString()</td>
+            <td>@r.Time</td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@r.Id">Cancel</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<br />
+<a href="/">← Back to Home</a>

@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Memory Game";
+}
+
+<h2>Memory Game</h2>
+<p>Match all the pairs to win.</p>
+
+<div id="gameBoard" style="display:grid; grid-template-columns: repeat(4,100px); gap:10px;">
+</div>
+
+<p>Attempts: <span id="attempts">0</span></p>
+<p>Score: <span id="score">0</span></p>
+
+<button onclick="resetGame()">Restart</button>
+<br />
+<br />
+<a href="/">← Back to Home</a>
+
+<script>
+    const cards = ["🍎", "🍌", "🍇", "🍉", "🍎", "🍌", "🍇", "🍉"];
+    let shuffled = [];
+    let firstCard = null;
+    let secondCard = null;
+    let attempts = 0;
+    let score = 0;
+
+    function shuffle() {
+        shuffled = cards.sort(() => Math.random() - 0.5);
+    }
+
+    function createBoard() {
+        const board = document.getElementById("gameBoard");
+        board.innerHTML = "";
+
+        shuffled.forEach((value, index) => {
+            const card = document.createElement("div");
+            card.style.width = "100px";
+            card.style.height = "100px";
+            card.style.border = "1px solid black";
+            card.style.display = "flex";
+            card.style.alignItems = "center";
+            card.style.justifyContent = "center";
+            card.style.fontSize = "40px";
+            card.style.cursor = "pointer";
+            card.dataset.value = value;
+            card.dataset.index = index;
+            card.textContent = "❓";
+
+            card.onclick = () => flipCard(card);
+            board.appendChild(card);
+        });
+    }
+
+    function flipCard(card) {
+        if (card.textContent !== "❓" || secondCard !== null) return;
+
+        card.textContent = card.dataset.value;
+
+        if (firstCard === null) {
+            firstCard = card;
+        } else {
+            secondCard = card;
+            attempts++;
+            document.getElementById("attempts").textContent = attempts;
+
+            setTimeout(checkMatch, 800);
+        }
+    }
+
+    function checkMatch() {
+        if (firstCard.dataset.value === secondCard.dataset.value) {
+            score++;
+            document.getElementById("score").textContent = score;
+        } else {
+            firstCard.textContent = "❓";
+            secondCard.textContent = "❓";
+        }
+
+        firstCard = null;
+        secondCard = null;
+    }
+
+    function resetGame() {
+        attempts = 0;
+        score = 0;
+        document.getElementById("attempts").textContent = 0;
+        document.getElementById("score").textContent = 0;
+        shuffle();
+        createBoard();
+    }
+
+    shuffle();
+    createBoard();
+</script>
+
+

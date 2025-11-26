@@ -1,0 +1,23 @@
+﻿@model List<Seguimientos.Models.Recipe>
+
+<h2>Recipe Platform</h2>
+
+<form asp-action="Create" method="post">
+    <input type="text" name="Name" placeholder="Recipe Name" required />
+    <input type="text" name="FoodType" placeholder="Food Type" required />
+    <textarea name="Ingredients" placeholder="Ingredients"></textarea>
+    <textarea name="Preparation" placeholder="Preparation"></textarea>
+    <button type="submit">Save Recipe</button>
+</form>
+
+<ul>
+    @foreach (var r in Model)
+    {
+        <li>
+            <strong>@r.Name</strong> (@r.FoodType) <br />
+            Ingredients: @r.Ingredients <br />
+            Preparation: @r.Preparation
+        </li>
+    }
+</ul>
+

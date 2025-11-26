@@ -1,0 +1,83 @@
+﻿@model Seguimientos.Models.Password
+
+@{
+    ViewData["Title"] = "Password Generator";
+}
+
+<h2>Password Generator</h2>
+
+<form asp-action="Generate" method="post">
+    <label>Length</label><br />
+    <input type="number" asp-for="Length" min="4" max="128" required />
+    <br /><br />
+
+    <label>
+        <input type="checkbox" asp-for="IncludeUppercase" />
+        Include Uppercase
+    </label>
+    <br />
+
+    <label>
+        <input type="checkbox" asp-for="IncludeNumbers" />
+        Include Numbers
+    </label>
+    <br />
+
+    <label>
+        <input type="checkbox" asp-for="IncludeSymbols" />
+        Include Symbols
+    </label>
+    <br /><br />
+
+    <button type="submit">Generate</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.GeneratedPassword))
+{
+    <hr />
+    <label>Generated Password</label>
+    <div style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+        <input id="pwd" type="text" value="@Model.GeneratedPassword" readonly style="width:420px;" />
+        <button onclick="copyPwd()" type="button">Copy</button>
+        <button onclick="showHide()" type="button">Show/Hide</button>
+    </div>
+
+    <p><strong>Length:</strong> @Model.Length</p>
+    <p>
+        <strong>Includes:</strong>
+        @(Model.IncludeUppercase ? "Uppercase " : "")
+        @(Model.IncludeNumbers ? "Numbers " : "")
+        @(Model.IncludeSymbols ? "Symbols " : "")
+    </p>
+}
+
+<br />
+<a href="/">← Back to Home</a>
+
+<script>
+    function copyPwd() {
+        const input = document.getElementById('pwd');
+        input.select();
+        input.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(input.value).then(() => {
+            alert('Password copied to clipboard');
+        });
+    }
+
+    function showHide() {
+        const input = document.getElementById('pwd');
+        if (input.type === 'password') {
+            input.type = 'text';
+        } else {
+            input.type = 'password';
+        }
+    }
+
+    
+    (function () {
+        const input = document.getElementById('pwd');
+        if (input) input.type = 'text'; 
+    })();
+</script>
+
+

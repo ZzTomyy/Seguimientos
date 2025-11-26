@@ -1,0 +1,51 @@
+﻿@model List<Seguimientos.Models.EventModel>
+
+@{
+    ViewData["Title"] = "Event Calendar";
+}
+
+<h2>Event Calendar</h2>
+
+<h4>Add New Event</h4>
+
+<form asp-action="Create" method="post">
+    <input type="text" name="title" placeholder="Event Title" required />
+    <br /><br />
+
+    <input type="date" name="date" required />
+    <br /><br />
+
+    <textarea name="description" placeholder="Description" required></textarea>
+    <br /><br />
+
+    <button type="submit">Add Event</button>
+</form>
+
+<hr />
+
+<h3>Events List</h3>
+
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var ev in Model)
+    {
+        <tr>
+            <td>@ev.Title</td>
+            <td>@ev.Date.ToShortDateString()</td>
+            <td>@ev.Description</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@ev.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@ev.Id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<br />
+<a href="/">← Back to Home</a>
