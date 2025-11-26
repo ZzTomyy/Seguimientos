@@ -1,0 +1,22 @@
+﻿@model List<Seguimientos.Models.Note>
+
+<h2>Notes Manager</h2>
+
+<form asp-action="Create" method="post">
+    <input type="text" name="Title" placeholder="Title" required />
+    <input type="text" name="Category" placeholder="Category" required />
+    <textarea name="Content" placeholder="Content"></textarea>
+    <button type="submit">Save</button>
+</form>
+
+<ul>
+    @foreach (var n in Model)
+    {
+        <li>
+            <strong>@n.Title</strong> - @n.Category <br />
+            @n.Content <br />
+            <small>@n.CreatedAt</small>
+        </li>
+    }
+</ul>
+

@@ -1,0 +1,65 @@
+﻿@model List<Seguimientos.Models.Survey>
+
+@{
+    ViewData["Title"] = "Survey Platform";
+}
+
+<h2>Survey Platform</h2>
+
+<h4>Create Survey</h4>
+
+<form asp-action="Create" method="post">
+    <input type="text" name="title" placeholder="Survey Title" required />
+    <br /><br />
+    <input type="text" name="option1" placeholder="Option 1" required />
+    <br /><br />
+    <input type="text" name="option2" placeholder="Option 2" required />
+    <br /><br />
+    <button type="submit">Create Survey</button>
+</form>
+
+<hr />
+
+<h3>Available Surveys</h3>
+
+@if (Model.Count == 0)
+{
+    <p>No surveys available.</p>
+}
+else
+{
+    foreach (var survey in Model)
+    {
+        <div style="border:1px solid black; padding:10px; margin-bottom:10px;">
+            <strong>@survey.Title</strong>
+            <br />
+            <small>@survey.CreatedAt</small>
+
+            <ul>
+                @foreach (var option in survey.Options)
+                {
+                    <li>
+                        @option.Text — Votes: @option.Votes
+                        <a asp-action="Vote"
+                           asp-route-surveyId="@survey.Id"
+                           asp-route-optionId="@option.Id">
+                            Vote
+                        </a>
+
+                        @{
+                            int totalVotes = survey.Options.Sum(o => o.Votes);
+                            double percent = totalVotes == 0 ? 0 : (option.Votes * 100.0 / totalVotes);
+                        }
+
+                        (<strong>@percent.ToString("0.0")%</strong>)
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+}
+
+<br />
+<a href="/">← Back to Home</a>
+
+

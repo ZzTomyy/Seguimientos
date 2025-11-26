@@ -1,0 +1,25 @@
+﻿@model Seguimientos.Models.EventModel
+
+@{
+    ViewData["Title"] = "Edit Event";
+}
+
+<h2>Edit Event</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <label>Title</label><br />
+    <input asp-for="Title" required /><br /><br />
+
+    <label>Date</label><br />
+    <input type="date" asp-for="Date" required /><br /><br />
+
+    <label>Description</label><br />
+    <textarea asp-for="Description" required></textarea><br /><br />
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<br />
+<a asp-action="Index">← Back</a>
