@@ -17,8 +17,8 @@
     <None Remove="Views\NewFolder\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    
+  <ItemGroup> 
+   
   </ItemGroup>
 
 </Project>
